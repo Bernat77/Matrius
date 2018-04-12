@@ -15,56 +15,58 @@ public class Matrius {
 
     private int[][] matriu;
 
-    public Matrius(int a, int b) {
-        this.matriu = new int[a][b];
+    public Matrius() {
     }
 
     public static void main(String[] args) {
-        start();
+
+        Matrius nueva = new Matrius();
+        nueva.start();
     }
 
-    public static void start(){
-        
+    public void start() {
+
         Scanner hola = new Scanner(System.in);
-        Matrius nueva;
         boolean val = true;
         int a = 0;
         int b = 0;
 
+        System.out.println("Bienvenido a la reducción de matrices!");
+        System.out.println("Deberás insertar dos números, para filas y columnas, ambos deben ser números pares\n");
         do {
             try {
-                System.out.print("Introduce número de filas");
+                System.out.println("Introduce número de filas:");
                 a = hola.nextInt();
-                System.out.print("Introduce número de columnas");
+                System.out.println("Introduce número de columnas:");
                 b = hola.nextInt();
-                val = false;
+                if (a % 2 == 0 && b % 2 == 0) {
+                    val = false;
+                } else {
+                    System.out.println("Por favor, introduce valores pares...\n");
+                }
             } catch (InputMismatchException e) {
                 System.out.println("Por favor, introduce números.");
                 hola.next();
             }
         } while (val);
+        System.out.print("Matrices:\n");
+        setMatrizDim(a, b);
+        setMatriu(randomFill(getMatriu()));
+        print(getMatriu());
+        System.out.println();
 
-        nueva = new Matrius(a, b);
-        nueva.setMatriu(randomFill(nueva.getMatriu()));
-        empezar();
-    }
-    
-    public void empezar(Matrius matriu) {
-
-        Matrius adios = matriu;
-
-        while (adios.getMatriu().length % 2 != 0 || matriu.getMatriu()[0].length % 2 != 0) {
-            adios.setMatriu(adios.getMatrizReducida(adios.getMatriu()));
-            print(adios.getMatriu());
+        while (getMatriu().length % 2 == 0 || getMatriu()[0].length % 2 == 0) {
+            setMatriu(getMatrizReducida(getMatriu()));
+            print(this.getMatriu());
+            System.out.println();
         }
-
     }
 
     public int[][] randomFill(int[][] matriu) {
 
         for (int i = 0; i < matriu.length; i++) {
             for (int j = 0; j < matriu[i].length; j++) {
-                matriu[i][j] = (int) Math.random() * 100;
+                matriu[i][j] = (int) (Math.random() * 10);
             }
         }
         return matriu;
@@ -75,7 +77,10 @@ public class Matrius {
 
         for (int i = 0; i < nmatriu.length; i++) {
             for (int j = 0; j < nmatriu[i].length; j++) {
-                nmatriu[i][j] = matriu[2 * i][2 * j] * matriu[(2 * i) + 1][2 * j] * matriu[2 * i][(2 * j) + 1] * matriu[(2 * i) + 1][(2 * j) + 1];
+                nmatriu[i][j] = matriu[2 * i][2 * j]
+                        * matriu[(2 * i) + 1][2 * j]
+                        * matriu[2 * i][(2 * j) + 1]
+                        * matriu[(2 * i) + 1][(2 * j) + 1];
             }
         }
 
@@ -83,7 +88,20 @@ public class Matrius {
 
     }
 
+    public void setMatrizDim(int a, int b) {
+        this.matriu = new int[a][b];
+    }
+
     public void print(int[][] matriu) {
+
+        for (int i = 0; i < matriu.length; i++) {
+            System.out.print("|");
+            for (int j = 0; j < matriu[i].length; j++) {
+                System.out.print(matriu[i][j] + "\t");
+            }
+            System.out.print("|");
+            System.out.println();
+        }
 
     }
 
