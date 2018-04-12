@@ -15,16 +15,19 @@ public class Matrius {
 
     private int[][] matriu;
 
-    public Matrius() {
+    public Matrius(int a, int b) throws Exception {
+        if (a % 2 != 0 || b % 2 != 0) {
+            throw new Exception("impar");
+        }
+        this.matriu = new int[a][b];
+
+    }
+
+    public Matrius(int[][] matriu) {
+        this.matriu = matriu;
     }
 
     public static void main(String[] args) {
-
-        Matrius nueva = new Matrius();
-        nueva.start();
-    }
-
-    public void start() {
 
         Scanner hola = new Scanner(System.in);
         boolean val = true;
@@ -39,34 +42,40 @@ public class Matrius {
                 a = hola.nextInt();
                 System.out.println("Introduce número de columnas:");
                 b = hola.nextInt();
-                if (a % 2 == 0 && b % 2 == 0) {
-                    val = false;
-                } else {
-                    System.out.println("Por favor, introduce valores pares...\n");
-                }
             } catch (InputMismatchException e) {
                 System.out.println("Por favor, introduce números.");
                 hola.next();
             }
-        } while (val);
-        System.out.print("Matrices:\n");
-        setMatrizDim(a, b);
-        setMatriu(randomFill(getMatriu()));
-        print(getMatriu());
-        System.out.println();
+            try {
+                Matrius nueva = new Matrius(a, b);
+                val = false;
+                nueva.start();
 
-        while (getMatriu().length % 2 == 0 || getMatriu()[0].length % 2 == 0) {
+            } catch (Exception e) {
+                System.out.println("Por favor, introduce números pares");
+            }
+        } while (val);
+
+    }
+
+    public void start() {
+
+        System.out.print("Matrices:\n");
+        setMatriu(randomFill(getMatriu()));
+        Matrius nueva = new Matrius(this.getMatriu());
+
+        do {
             setMatriu(getMatrizReducida(getMatriu()));
             print(this.getMatriu());
             System.out.println();
-        }
+        } while (getMatriu().length % 2 == 0 || getMatriu()[0].length % 2 == 0);
     }
 
     public int[][] randomFill(int[][] matriu) {
 
         for (int i = 0; i < matriu.length; i++) {
             for (int j = 0; j < matriu[i].length; j++) {
-                matriu[i][j] = (int) (Math.random() * 10);
+                matriu[i][j] = (int) (Math.random() * 11);
             }
         }
         return matriu;
@@ -85,11 +94,6 @@ public class Matrius {
         }
 
         return nmatriu;
-
-    }
-
-    public void setMatrizDim(int a, int b) {
-        this.matriu = new int[a][b];
     }
 
     public void print(int[][] matriu) {
