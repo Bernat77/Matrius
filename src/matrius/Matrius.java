@@ -34,7 +34,7 @@ public class Matrius {
         int a = 0;
         int b = 0;
 
-        System.out.println("Bienvenido a la reducción de matrices!");
+        System.out.println("¡Bienvenido a la reducción de matrices!");
         System.out.println("Deberás insertar dos números, para filas y columnas, ambos deben ser números pares\n");
         do {
             try {
@@ -45,6 +45,7 @@ public class Matrius {
             } catch (InputMismatchException e) {
                 System.out.println("Por favor, introduce números.");
                 hola.next();
+                continue;
             }
             try {
                 Matrius nueva = new Matrius(a, b);
@@ -63,12 +64,15 @@ public class Matrius {
         System.out.print("Matrices:\n");
         setMatriu(randomFill(getMatriu()));
         Matrius nueva = new Matrius(this.getMatriu());
+        print(nueva.getMatriu());
+        System.out.println();
 
         do {
-            setMatriu(getMatrizReducida(getMatriu()));
-            print(this.getMatriu());
+            nueva.setMatriu(nueva.getMatrizReducida(nueva.getMatriu()));
+            print(nueva.getMatriu());
             System.out.println();
-        } while (getMatriu().length % 2 == 0 || getMatriu()[0].length % 2 == 0);
+        } while (nueva.getMatriu().length % 2 == 0 || nueva.getMatriu()[0].length % 2 == 0);
+        System.out.println("Fin");
     }
 
     public int[][] randomFill(int[][] matriu) {
